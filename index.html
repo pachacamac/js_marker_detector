@@ -5,7 +5,12 @@
 
   <script type="text/javascript" src="polyfill.js"></script>
   <script type="text/javascript" src="cv.js"></script>
-  <script type="text/javascript" src="pupil.js"></script>
+  <!--<script type="text/javascript" src="pupil.js"></script>-->
+  <script type="text/javascript">
+    var scr = document.createElement("script");
+    scr.src = "pupil.js" + "?ts=" + new Date().getTime();
+    document.getElementsByTagName("head")[0].appendChild(scr);
+  </script>
 
   <script>
     var camera, canvas, context, imageData, pixels, detector, marker, markerContext;

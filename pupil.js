@@ -159,9 +159,6 @@ AR.Detector.prototype.findMarkers = function(imageSrc, candidates, warpSize){
 };
 
 // TODO: make marker grid-capacity dynamic!
-// BUG: Some markers aren't rotation insensitive (try 54 and turn it around a bit)
-//      Seems to work with small marker IDs like 4.
-//      So this needs to be fixed ... :)
 AR.Detector.prototype.getMarker = function(imageSrc, candidate){
   var width = (imageSrc.width / 5) >>> 0,
       minZero = (width * width) >> 1,
@@ -186,7 +183,7 @@ AR.Detector.prototype.getMarker = function(imageSrc, candidate){
     }
   }
 
-  corners = [bits[2][0], bits[2][2], bits[0][2], bits[0][0]]
+  corners = [bits[0][0], bits[0][2], bits[2][2], bits[2][0]]
   corner_sum = corners[0] + corners[1] + corners[2] + corners[3];
   if(corner_sum == 3){
     msg_int = 0;
@@ -199,31 +196,29 @@ AR.Detector.prototype.getMarker = function(imageSrc, candidate){
   }
 
   // determine number of 90deg rotations to normalize marker.
-  if(corners == [0, 1, 1, 1]){
-    rotations = 3;
-  }else if(corners == [1, 0, 1, 1]){
-    rotations = 0;
-  }else if(corners == [1, 1, 0, 1]){
-    rotations = 1
-  }else{
-    rotations = 2;
-  }
+  if     (corners[0] == 0) rotations = 3;
+  else if(corners[3] == 0) rotations = 0;
+  else if(corners[2] == 0) rotations = 1;
+  else                     rotations = 2;
+
 
   //console.log("rotations: "+rotations);
   // normalize marker
-  for(i=0; i<-rotations-2; i++){
+  AR.logArray(bits);
+  for(i=0; i<rotations; i++){
     bits = this.rotate(bits);
   }
-  bits = this.transpose(bits);
+  AR.logArray(bits);
+  //bits = this.transpose(bits);
 
   // convert bits to ID
-  msg_int = (msg_int<<1) + bits[1][0];
   msg_int = (msg_int<<1) + bits[0][1];
+  msg_int = (msg_int<<1) + bits[1][0];
   msg_int = (msg_int<<1) + bits[1][1];
-  msg_int = (msg_int<<1) + bits[2][1];
   msg_int = (msg_int<<1) + bits[1][2];
+  msg_int = (msg_int<<1) + bits[2][1];
 
-  return new AR.Marker(msg_int, this.rotate2(candidate, 4 - rotations) );
+  return new AR.Marker(msg_int, this.rotate2(candidate, rotations) );
 };
 
 AR.Detector.prototype.rotate = function(arr){
