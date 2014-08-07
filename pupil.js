@@ -159,6 +159,9 @@ AR.Detector.prototype.findMarkers = function(imageSrc, candidates, warpSize){
 };
 
 // TODO: make marker grid-capacity dynamic!
+// BUG: Some markers aren't rotation insensitive (try 54 and turn it around a bit)
+//      Seems to work with small marker IDs like 4.
+//      So this needs to be fixed ... :)
 AR.Detector.prototype.getMarker = function(imageSrc, candidate){
   var width = (imageSrc.width / 5) >>> 0,
       minZero = (width * width) >> 1,
