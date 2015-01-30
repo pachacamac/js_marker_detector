@@ -6,3 +6,6 @@ This project is heavily based on
 [Pupil-labs](http://pupil-labs.com/)
 [Marker](https://github.com/pupil-labs/pupil/blob/master/pupil_src/shared_modules/square_marker_detect.py)
 [design](https://gist.github.com/willpatera/7908319).
+
+
+[**DEMO**](https://rawgit.com/pachacamac/js_marker_detector/master/index.html)
