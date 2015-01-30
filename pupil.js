@@ -77,7 +77,7 @@ AR.Detector.prototype.detect = function(image){
 
   this.contours = CV.findContours(this.thres, this.binary);
 
-  this.candidates = this.findCandidates(this.contours, image.width * 0.20, 0.05, 10);
+  this.candidates = this.findCandidates(this.contours, 10/*image.width * 0.03*/, 0.05, 10);
   this.candidates = this.clockwiseCorners(this.candidates);
   this.candidates = this.notTooNear(this.candidates, 10);
   return this.findMarkers(this.grey, this.candidates, 49);
