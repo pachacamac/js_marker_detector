@@ -1,4 +1,4 @@
-# AR Marker Detector in Pure Javascript
+# AR Marker Detector in Javascript
 
 This project is heavily based on
 [ArUco](http://www.uco.es/investiga/grupos/ava/node/26),
