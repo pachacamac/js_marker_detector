@@ -55,8 +55,10 @@
       if (navigator.getUserMedia){
 
         function successCallback(stream){
+          var binaryData = [];
+          binaryData.push(stream);
           if (window.URL) {
-            video.src = window.URL.createObjectURL(stream);
+            video.src = window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"}));
           } else if (video.mozSrcObject !== undefined) {
             video.mozSrcObject = stream;
           } else {
